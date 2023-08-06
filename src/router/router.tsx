@@ -8,5 +8,9 @@ export const router = [
 	{
 		path: AppRoutes.MAIN,
 		element: <Main />
-	}
+	},
+	{
+		path: '*',
+		element: <Main />
+	},
 ]

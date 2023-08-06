@@ -1,0 +1,16 @@
+.footer {
+	height: 40px;
+}
+
+.footer__inner {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	flex-direction: column;
+	font-size: 11px;
+}
+
+a {
+	text-decoration: none;
+	color: white;
+}

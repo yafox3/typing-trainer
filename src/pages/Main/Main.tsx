@@ -1,9 +1,10 @@
+import TypingTest from '../../components/TypingTest/TypingTest'
+import './Main.css'
+
 const Main = () => {
 	return (
-		<main>
-			<div className='container'>
-				
-			</div>
+		<main className='main'>
+			<TypingTest />
 		</main>
 	)
 }
