@@ -1,0 +1,17 @@
+@import-normalize;
+@import '~reset-css';
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:100,200,300,regular,500,600,700');
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	font-family: 'Roboto Mono';
+	font-size: 14px;
+	font-weight: 300;
+	background-color: #323437;
+	color: #D1D0C5;
+	letter-spacing: .09rem;
+}
