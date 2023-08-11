@@ -15,4 +15,42 @@ body {
 	color: #D1D0C5;
 	letter-spacing: .09rem;
 	line-height: 1.2;
+	user-select: none;
+}
+
+.correct {
+	color: rgb(0, 188, 81);
+}
+
+.uncorrect {
+	color: rgb(212, 0, 0);
+}
+
+.current {
+	position: relative;
+}
+
+.current::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	width: 1px;
+	height: 100%;
+	background-color: yellow;
+	opacity: 1;
+	animation: blinking infinite 1s ease-in-out;
+}
+
+@keyframes blinking {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
 }

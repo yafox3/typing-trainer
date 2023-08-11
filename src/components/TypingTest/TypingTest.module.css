@@ -1,8 +1,21 @@
 .test {
+	position: relative;
 	font-size: 24px;
 	color: #646669;
+	cursor: default;
 }
 
 .test__inner {
-	
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 20px;
+	overflow: hidden;
+	margin-bottom: 5rem;
+}
+
+.test__hotkey {
+	text-align: center;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.5);
 }
