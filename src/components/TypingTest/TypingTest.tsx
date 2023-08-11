@@ -1,22 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 import { WordsService } from '../../API/WordsService'
+import { useQuery } from '../../hooks/useQuery'
+import Loader from '../UI/Loader/Loader'
 import css from './TypingTest.module.css'
 
 const TypingTest = () => {
 	const [words, setWords] = useState<string[]>([])
 	const wordsRef = useRef<HTMLDivElement | null>(null)
 	const [start, setStart] = useState(false)
+	const {fetching, loading, error} = useQuery(async () => {
+		const responseWords = await WordsService.getWords(30, 4)
+		setWords(responseWords)
+	})
 	let isStarted = false
 	let currentLetterIndex = 0
 	let currentWordIndex = 0
 
-	const fetchWords = async () => {
-		const responseWords = await WordsService.getWords(30, 4)
-		setWords(responseWords)
-	}
-
 	useEffect(() => {
-		fetchWords()
+		fetching()
 	}, [])
 
 	useEffect(() => {
@@ -62,6 +63,14 @@ const TypingTest = () => {
 		}
 	}
 	
+	if (loading) {
+		return <Loader />
+	}
+
+	if (error) {
+		return <span style={{color: 'red', textAlign: 'center'}}>{error}</span>
+	}
+
 	return (
 		<section className={css.test}>
 			<div className='container'>
