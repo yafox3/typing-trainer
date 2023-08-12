@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { WordsService } from '../../API/WordsService'
 import { useQuery } from '../../hooks/useQuery'
 import Loader from '../UI/Loader/Loader'
+import Timer from '../UI/Timer/Timer'
 import css from './TypingTest.module.css'
 
 const TypingTest = () => {
 	const [words, setWords] = useState<string[]>([])
 	const wordsRef = useRef<HTMLDivElement | null>(null)
 	const [start, setStart] = useState(false)
+	const [seconds, setSeconds] = useState(0)
 	const {fetching, loading, error} = useQuery(async () => {
 		const responseWords = await WordsService.getWords(30, 4)
 		setWords(responseWords)
@@ -17,7 +19,7 @@ const TypingTest = () => {
 	let currentWordIndex = 0
 
 	useEffect(() => {
-		fetching()
+		!start && fetching()
 	}, [])
 
 	useEffect(() => {
@@ -74,6 +76,12 @@ const TypingTest = () => {
 	return (
 		<section className={css.test}>
 			<div className='container'>
+				<Timer 
+					seconds={seconds} 
+					setSeconds={() => setSeconds(prev => prev + 1)} 
+					start={start}
+				/>
+
 				<div className={css.test__inner} id='words' ref={wordsRef}>
 					{words.map((word, idx) => (
 						<div style={{ display: 'flex' }} key={idx} data-index={idx}>
@@ -84,9 +92,11 @@ const TypingTest = () => {
 					))}
 				</div>
 
-				{!start && <div className={css.test__hotkey}>
-					<p>press <span className={css.key}>space</span> to start</p>
-				</div>}
+				<div className={css.test__hotkey}>
+					<p className={start ? css.active : ''}>
+						press <span className={css.key}>space</span> to start
+					</p>
+				</div>
 			</div>
 		</section>
 	)

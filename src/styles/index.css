@@ -19,11 +19,13 @@ body {
 }
 
 .correct {
-	color: rgb(0, 188, 81);
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 400;
 }
 
 .uncorrect {
-	color: rgb(212, 0, 0);
+	color: rgb(237, 66, 66);
+	font-weight: 400;
 }
 
 .current {

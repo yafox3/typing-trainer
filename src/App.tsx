@@ -4,6 +4,7 @@ import Header from './components/Header/Header'
 import './styles/App.css'
 
 const App = () => {
+	
 	return (
 		<div className='wrapper'>
 			<Header />
