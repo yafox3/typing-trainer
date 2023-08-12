@@ -4,6 +4,7 @@ import { useQuery } from '../../hooks/useQuery'
 import Loader from '../UI/Loader/Loader'
 import Timer from '../UI/Timer/Timer'
 import css from './TypingTest.module.css'
+import WordList from '../Words/WordList'
 
 const TypingTest = () => {
 	const [words, setWords] = useState<string[]>([])
@@ -15,6 +16,7 @@ const TypingTest = () => {
 		setWords(responseWords)
 	})
 	let isStarted = false
+	let enteredWords = 0
 	let currentLetterIndex = 0
 	let currentWordIndex = 0
 
@@ -25,7 +27,22 @@ const TypingTest = () => {
 	useEffect(() => {
 		words.length && document.addEventListener('keydown', typingHandler)
 	}, [words])
+
+	useEffect(() => {
+		seconds === 30 && stopGame() 
+	}, [seconds])
 	
+	const startGame = () => {
+		isStarted = true
+		setStart(true)
+	}
+
+	const stopGame = () => {
+		isStarted = false
+		setStart(false)
+		setSeconds(0)
+	}
+
 	const typingHandler = (event: KeyboardEvent) => {
 		if (isStarted) {
 			const currentWordDivEl = wordsRef.current?.querySelectorAll('div')?.item(currentWordIndex)
@@ -57,11 +74,16 @@ const TypingTest = () => {
 			if (currentWordDivEl?.querySelectorAll('.correct').length === currentWordDivEl?.childElementCount) {
 				currentLetterEl?.classList.remove('current')
 				currentWordIndex++
+				enteredWords++
 				currentLetterIndex = 0
 			}
+
+			if (enteredWords === wordsRef.current?.childElementCount) {
+				stopGame()
+			}
+
 		} else if (event.key === ' ') {
-			isStarted = true
-			setStart(true)
+			startGame()
 		}
 	}
 	
@@ -83,13 +105,7 @@ const TypingTest = () => {
 				/>
 
 				<div className={css.test__inner} id='words' ref={wordsRef}>
-					{words.map((word, idx) => (
-						<div style={{ display: 'flex' }} key={idx} data-index={idx}>
-							{word.split('').map((letter, idx) => (
-								<p key={idx} data-index={idx} data-key={letter}>{letter}</p>
-							))}
-						</div>
-					))}
+					<WordList words={words}/>
 				</div>
 
 				<div className={css.test__hotkey}>
