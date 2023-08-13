@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { WordsService } from '../../API/WordsService'
 import { useQuery } from '../../hooks/useQuery'
+import { playSound } from '../../utils/playSound'
 import Loader from '../UI/Loader/Loader'
 import Timer from '../UI/Timer/Timer'
-import css from './TypingTest.module.css'
 import WordList from '../Words/WordList'
+import css from './TypingTest.module.css'
 
 const TypingTest = () => {
 	const [words, setWords] = useState<string[]>([])
@@ -29,22 +30,24 @@ const TypingTest = () => {
 	}, [words])
 
 	useEffect(() => {
-		seconds === 30 && stopGame() 
+		seconds === 30 && stopTest() 
 	}, [seconds])
-	
-	const startGame = () => {
+
+	const startTest = () => {
 		isStarted = true
 		setStart(true)
 	}
 
-	const stopGame = () => {
+	const stopTest = () => {
 		isStarted = false
 		setStart(false)
 		setSeconds(0)
+		document.removeEventListener('keydown', typingHandler)
 	}
 
 	const typingHandler = (event: KeyboardEvent) => {
 		if (isStarted) {
+			playSound(event.key)
 			const currentWordDivEl = wordsRef.current?.querySelectorAll('div')?.item(currentWordIndex)
 			const currentLetterEl = currentWordDivEl?.children[currentLetterIndex]
 	
@@ -79,11 +82,11 @@ const TypingTest = () => {
 			}
 
 			if (enteredWords === wordsRef.current?.childElementCount) {
-				stopGame()
+				stopTest()
 			}
 
 		} else if (event.key === ' ') {
-			startGame()
+			startTest()
 		}
 	}
 	
