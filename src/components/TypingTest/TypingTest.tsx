@@ -1,53 +1,44 @@
+import { observer } from 'mobx-react-lite'
 import { useEffect, useRef, useState } from 'react'
 import { WordsService } from '../../API/WordsService'
 import { useQuery } from '../../hooks/useQuery'
+import configState from '../../store/configState'
+import testState from '../../store/testState'
 import { playSound } from '../../utils/playSound'
 import Loader from '../UI/Loader/Loader'
 import Timer from '../UI/Timer/Timer'
 import WordList from '../Words/WordList'
 import css from './TypingTest.module.css'
 
-const TypingTest = () => {
+const TypingTest = observer(() => {
 	const [words, setWords] = useState<string[]>([])
 	const wordsRef = useRef<HTMLDivElement | null>(null)
-	const [start, setStart] = useState(false)
-	const [seconds, setSeconds] = useState(0)
 	const {fetching, loading, error} = useQuery(async () => {
-		const responseWords = await WordsService.getWords(30, 4)
+		const responseWords = await WordsService.getWords(configState.getWordsCount, configState.getWordLength)
 		setWords(responseWords)
 	})
-	let isStarted = false
-	let enteredWords = 0
 	let currentLetterIndex = 0
 	let currentWordIndex = 0
-
+	
 	useEffect(() => {
-		!start && fetching()
+		!testState.getIsStarted && fetching()
+		// eslint-disable-next-line
 	}, [])
 
 	useEffect(() => {
-		words.length && document.addEventListener('keydown', typingHandler)
-	}, [words])
+		document.addEventListener('keydown', typingHandler)
+		// eslint-disable-next-line
+	}, [])
 
 	useEffect(() => {
-		seconds === 30 && stopTest() 
-	}, [seconds])
-
-	const startTest = () => {
-		isStarted = true
-		setStart(true)
-	}
-
-	const stopTest = () => {
-		isStarted = false
-		setStart(false)
-		setSeconds(0)
-		document.removeEventListener('keydown', typingHandler)
-	}
+		testState.getTimer === configState.getSeconds && testState.stopTest(fetching) 
+		// eslint-disable-next-line
+	}, [testState.getTimer])
 
 	const typingHandler = (event: KeyboardEvent) => {
-		if (isStarted) {
-			playSound(event.key)
+		if (testState.getIsStarted) {
+			configState.getPlaySound && playSound(event.key)
+
 			const currentWordDivEl = wordsRef.current?.querySelectorAll('div')?.item(currentWordIndex)
 			const currentLetterEl = currentWordDivEl?.children[currentLetterIndex]
 	
@@ -77,16 +68,18 @@ const TypingTest = () => {
 			if (currentWordDivEl?.querySelectorAll('.correct').length === currentWordDivEl?.childElementCount) {
 				currentLetterEl?.classList.remove('current')
 				currentWordIndex++
-				enteredWords++
+				testState.setEnteredWords = testState.getEnteredWords + 1
 				currentLetterIndex = 0
 			}
 
-			if (enteredWords === wordsRef.current?.childElementCount) {
-				stopTest()
+			if (testState.getEnteredWords === configState.getWordsCount) {
+				testState.stopTest(fetching)
 			}
 
 		} else if (event.key === ' ') {
-			startTest()
+			testState.startTest()
+			currentLetterIndex = 0
+			currentWordIndex = 0
 		}
 	}
 	
@@ -102,9 +95,7 @@ const TypingTest = () => {
 		<section className={css.test}>
 			<div className='container'>
 				<Timer 
-					seconds={seconds} 
-					setSeconds={() => setSeconds(prev => prev + 1)} 
-					start={start}
+					start={testState.getIsStarted}
 				/>
 
 				<div className={css.test__inner} id='words' ref={wordsRef}>
@@ -112,13 +103,13 @@ const TypingTest = () => {
 				</div>
 
 				<div className={css.test__hotkey}>
-					<p className={start ? css.active : ''}>
+					<p className={testState.getIsStarted ? css.active : ''}>
 						press <span className={css.key}>space</span> to start
 					</p>
 				</div>
 			</div>
 		</section>
 	)
-}
+})
 
 export default TypingTest
