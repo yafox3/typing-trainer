@@ -29,7 +29,7 @@ body {
 }
 
 .current {
-	position: relative;
+	position: relative;	
 }
 
 .current::after {
@@ -42,7 +42,7 @@ body {
 	height: 100%;
 	background-color: yellow;
 	opacity: 1;
-	animation: blinking infinite 1s ease-in-out;
+	animation: blinking infinite 1.4s ease-in-out;
 }
 
 @keyframes blinking {

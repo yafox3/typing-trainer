@@ -22,10 +22,6 @@ const TypingTest = observer(() => {
 	
 	useEffect(() => {
 		!testState.getIsStarted && fetching()
-		// eslint-disable-next-line
-	}, [])
-
-	useEffect(() => {
 		document.addEventListener('keydown', typingHandler)
 		// eslint-disable-next-line
 	}, [])
@@ -41,10 +37,10 @@ const TypingTest = observer(() => {
 
 			const currentWordDivEl = wordsRef.current?.querySelectorAll('div')?.item(currentWordIndex)
 			const currentLetterEl = currentWordDivEl?.children[currentLetterIndex]
-	
+
 			currentWordDivEl?.children[currentLetterIndex - 1]?.classList.remove('current')
 			currentLetterEl?.classList.add('current')
-	
+			
 			if (event.keyCode >= 32 && currentLetterEl) {
 				currentLetterEl?.classList.remove('correct', 'uncorrect')
 				

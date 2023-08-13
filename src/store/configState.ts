@@ -11,6 +11,7 @@ class ConfigState {
 		makeAutoObservable(this)
 	}
 
+	// getters
 	public get getWordsCount(): number {
 		return this._wordsCount
 	}
@@ -31,8 +32,7 @@ class ConfigState {
 		return this._wordsLength
 	}
 	
-
-
+	// setters
 	public set setWordsCount(value: number) {
 		this._wordsCount = value
 	}
