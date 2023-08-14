@@ -27,9 +27,7 @@ const TypingTest = observer(() => {
 	}, [])
 
 	useEffect(() => {
-		if (testState.getTimer === configState.getSeconds) {
-			testState.stopTest(fetching)
-		}
+		testState.getTimer === configState.getSeconds && testState.stopTest(fetching)
 		// eslint-disable-next-line
 	}, [testState.getTimer])
 
@@ -94,6 +92,7 @@ const TypingTest = observer(() => {
 	return (
 		<section className={css.test}>
 			<div className='container'>
+				
 				<Timer 
 					start={testState.getIsStarted}
 				/>

@@ -1,0 +1,76 @@
+.toolbar {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	right: 0; 
+	color: #646669;
+}
+
+.body {
+	display: flex;
+	justify-content: space-between;
+	width: 400px;
+	padding: 0 20px;
+	margin: 0 auto;
+	border-radius: 8px;
+	background-color:#2C2E31;
+}
+
+.category {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.category::after {
+	content: '';
+	position: absolute;
+	right: -20px;
+	width: 3px;
+	border-radius: 5px;
+	height: 80%;
+	background: #323437;
+}
+
+.options {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.options::after {
+	content: '';
+	position: absolute;
+	left: -20px;
+	width: 3px;
+	border-radius: 5px;
+	height: 80%;
+	background: #323437;
+}
+
+.btn {
+	display: flex;
+	align-items: center;
+	padding: 7px 0;
+	gap: 7px;
+	font-weight: 600;
+	border: none;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	transition: color .1s ease-in-out;
+}
+
+.btn:hover {
+	color: #BDBCB3;
+}
+
+.btn:active {
+	color: inherit;
+}
+
+.btn_active {
+	color: #E2B714;
+}

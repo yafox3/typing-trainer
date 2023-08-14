@@ -1,5 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import configState from './configState'
+import { useQuery } from '../hooks/useQuery'
+import { WordsService } from '../API/WordsService'
 
 class TestState {
 	private _timer = 0
