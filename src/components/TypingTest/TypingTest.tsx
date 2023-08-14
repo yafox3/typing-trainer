@@ -27,7 +27,9 @@ const TypingTest = observer(() => {
 	}, [])
 
 	useEffect(() => {
-		testState.getTimer === configState.getSeconds && testState.stopTest(fetching) 
+		if (testState.getTimer === configState.getSeconds) {
+			testState.stopTest(fetching)
+		}
 		// eslint-disable-next-line
 	}, [testState.getTimer])
 
@@ -38,7 +40,7 @@ const TypingTest = observer(() => {
 			const currentWordDivEl = wordsRef.current?.querySelectorAll('div')?.item(currentWordIndex)
 			const currentLetterEl = currentWordDivEl?.children[currentLetterIndex]
 
-			currentWordDivEl?.children[currentLetterIndex - 1]?.classList.remove('current')
+			currentWordDivEl?.children[currentLetterIndex - 1]?.classList.remove('current', 'current1')
 			currentLetterEl?.classList.add('current')
 			
 			if (event.keyCode >= 32 && currentLetterEl) {
@@ -69,13 +71,15 @@ const TypingTest = observer(() => {
 			}
 
 			if (testState.getEnteredWords === configState.getWordsCount) {
+				currentLetterIndex = 0
+				currentWordIndex = 0
 				testState.stopTest(fetching)
 			}
 
 		} else if (event.key === ' ') {
-			testState.startTest()
 			currentLetterIndex = 0
 			currentWordIndex = 0
+			testState.startTest()
 		}
 	}
 	

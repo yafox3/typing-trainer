@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx'
+import configState from './configState'
 
 class TestState {
 	private _timer = 0
@@ -23,10 +24,6 @@ class TestState {
 	}
 
 	// setters
-	public set setTimer(value: number) {
-		this._timer = value
-	}
-
 	public set setEnteredWords(value: number) {
 		this._enteredWords = value
 	}
@@ -40,11 +37,22 @@ class TestState {
 		this._enteredWords = 0
 		this._timer = 0
 		this._isStarted = true
+		this.startTimer()
 	}
 
 	public stopTest(fetchWords: () => void) {
 		this._isStarted = false
 		fetchWords()
+	}
+
+	public startTimer() {
+		const timer = setInterval(() => {
+			if (this._timer === configState.getSeconds || this._enteredWords === configState.getWordsCount) {
+				clearInterval(timer)
+			}
+
+			this._timer++
+		}, 1000)
 	}
 }
 

@@ -1,13 +1,14 @@
 
 interface WordItemProps {
 	word: string
+	count: number
 }
 
-const WordItem = ({word} : WordItemProps) => {
+const WordItem = ({word, count} : WordItemProps) => {
   return (
 	<>
 		{word.split('').map((letter: string, idx: number) => (
-			<p key={idx} data-index={idx} data-key={letter}>{letter}</p>
+			<p className={!count && !idx ? 'current1' : ''} key={idx} data-index={idx} data-key={letter}>{letter}</p>
 		))}
 	</>
   )

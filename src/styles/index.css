@@ -45,6 +45,23 @@ body {
 	animation: blinking infinite 1.4s ease-in-out;
 }
 
+.current1 {
+	position: relative;	
+}
+
+.current1::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	top: 0;
+	left: 0;
+	width: 1px;
+	height: 100%;
+	background-color: yellow;
+	opacity: 1;
+	animation: blinking infinite 1.4s ease-in-out;
+}
+
 @keyframes blinking {
 	0% {
 		opacity: 0;
