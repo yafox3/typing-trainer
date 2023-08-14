@@ -4,6 +4,13 @@
 	left: 0;
 	right: 0; 
 	color: #646669;
+	opacity: 1;
+	transition: opacity .2s ease-in-out, top .3s ease-in-out;
+}
+
+.toolbar.hidden {
+	top: -100%;
+	opacity: 0;
 }
 
 .body {

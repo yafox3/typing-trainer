@@ -4,6 +4,7 @@ import { useQuery } from '../hooks/useQuery'
 import { WordsService } from '../API/WordsService'
 
 class TestState {
+	private _words: string[] = []
 	private _timer = 0
 	private _enteredWords = 0
 	private _isStarted = false
@@ -24,6 +25,11 @@ class TestState {
 	public get getIsStarted(): boolean {
 		return this._isStarted
 	}
+	
+	public get getWords() : string[] {
+		return this._words
+	}
+	
 
 	// setters
 	public set setEnteredWords(value: number) {
@@ -33,6 +39,11 @@ class TestState {
 	public set setIsStarted(value: boolean) {
 		this._isStarted = value
 	}
+	
+	public set setWords(v : string[]) {
+		this._words = v;
+	}
+	
 
 	// methods
 	public startTest() {

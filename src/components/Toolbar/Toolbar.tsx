@@ -2,18 +2,27 @@ import { observer } from 'mobx-react-lite'
 import configState from '../../store/configState'
 import toolbarState from '../../store/toolbarState'
 import css from './Toolbar.module.css'
+import { useQuery } from '../../hooks/useQuery'
+import { WordsService } from '../../API/WordsService'
+import testState from '../../store/testState'
 
 const Toolbar = observer(() => {
+	const {fetching, loading, error} = useQuery(async () => {
+		const responseWords = await WordsService.getWords(configState.getWordsCount, configState.getWordLength)
+		testState.setWords = responseWords
+	})
+
 	const categoryHandler = (v: string) => {
 		toolbarState.setCategory = v
 	}
 
 	const optionHandler = (v: number) => {
 		toolbarState.setOption = v
+		fetching()
 	}
 
   return (
-	<div className={css.toolbar}>
+	<div className={testState.getIsStarted ? css.toolbar.concat(' ', css.hidden) : css.toolbar}>
 	  		<div className={css.body}>
 				<div className={css.category}>
 					<button 

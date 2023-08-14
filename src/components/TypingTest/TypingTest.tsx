@@ -11,11 +11,10 @@ import WordList from '../Words/WordList'
 import css from './TypingTest.module.css'
 
 const TypingTest = observer(() => {
-	const [words, setWords] = useState<string[]>([])
 	const wordsRef = useRef<HTMLDivElement | null>(null)
 	const {fetching, loading, error} = useQuery(async () => {
 		const responseWords = await WordsService.getWords(configState.getWordsCount, configState.getWordLength)
-		setWords(responseWords)
+		testState.setWords = responseWords
 	})
 	let currentLetterIndex = 0
 	let currentWordIndex = 0
@@ -98,7 +97,7 @@ const TypingTest = observer(() => {
 				/>
 
 				<div className={css.test__inner} id='words' ref={wordsRef}>
-					<WordList words={words}/>
+					<WordList words={testState.getWords}/>
 				</div>
 
 				<div className={css.test__hotkey}>
