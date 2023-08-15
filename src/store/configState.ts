@@ -52,6 +52,11 @@ class ConfigState {
 	public set setWordLength(value: number) {
 		this._wordsLength = value
 	}
+
+	// methods
+	public togglePlaySound() {
+		this._playSound = !this._playSound
+	}
 }
 
 // eslint-disable-next-line

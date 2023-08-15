@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite'
-import configState from '../../store/configState'
-import toolbarState from '../../store/toolbarState'
-import css from './Toolbar.module.css'
-import { useQuery } from '../../hooks/useQuery'
 import { WordsService } from '../../API/WordsService'
+import { useQuery } from '../../hooks/useQuery'
+import configState from '../../store/configState'
 import testState from '../../store/testState'
+import toolbarState from '../../store/toolbarState'
+import Switcher from '../UI/Switcher/Switcher'
+import css from './Toolbar.module.css'
 
 const Toolbar = observer(() => {
 	const {fetching, loading, error} = useQuery(async () => {
@@ -24,6 +25,12 @@ const Toolbar = observer(() => {
   return (
 	<div className={testState.getIsStarted ? css.toolbar.concat(' ', css.hidden) : css.toolbar}>
 	  		<div className={css.body}>
+
+				<div className={css.sounds}>
+					<Switcher />
+					<b style={{color: configState.getPlaySound ? '#E2B714' : ''}}>mechvibes</b>
+				</div>
+
 				<div className={css.category}>
 					<button 
 						className={toolbarState.getCategory === 'words' ? css.btn.concat(' ', css.btn_active) : css.btn}

@@ -1,0 +1,32 @@
+.switcher {
+	position: relative;
+	width: 30px;
+	height: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	background-color: #323437;
+	transition: background-color .2s ease-out;
+}
+
+.switcher.active {
+	background-color: #E2B714;
+}
+
+.stateCircle {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	border: 1px solid rgb(42, 42, 42);
+	background: #323437;
+	transition: all .1s ease-in;
+}
+
+.stateCircle.active {
+	border: none;
+	background: #ae8b0d;
+	left: 15px;
+}

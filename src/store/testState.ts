@@ -44,6 +44,11 @@ class TestState {
 		this._words = v;
 	}
 	
+	public set setTimer(v : number) {
+		this._timer = v;
+	}
+	
+	
 
 	// methods
 	public startTest() {
@@ -64,7 +69,7 @@ class TestState {
 				clearInterval(timer)
 			}
 
-			this._timer++
+			this.setTimer = this.getTimer + 1
 		}, 1000)
 	}
 }
