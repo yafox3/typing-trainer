@@ -24,9 +24,24 @@ const Toolbar = observer(() => {
 
   return (
 	<div className={testState.getIsStarted ? css.toolbar.concat(' ', css.hidden) : css.toolbar}>
-	  		<div className={css.body}>
+	  		<div style={{height: configState.getPlaySound ? 80 : '', width: configState.getPlaySound ? 550 : 450}} className={css.body}>
 
 				<div className={css.sounds}>
+					{configState.getPlaySound && 
+						<div className={css.sliderWrapper}>
+							<input 
+								onChange={(event: React.ChangeEvent<HTMLInputElement>) => configState.setVolume = Number.parseInt(event.target.value)}
+								type="range" 
+								min="1" 
+								max="100" 
+								defaultValue={configState.getVolume}
+								className={css.slider}
+								id='volume'
+							/>
+							<label htmlFor="volume">volume {configState.getVolume}</label>
+						</div>
+					}
+
 					<Switcher />
 					<b style={{color: configState.getPlaySound ? '#E2B714' : ''}}>mechvibes</b>
 				</div>

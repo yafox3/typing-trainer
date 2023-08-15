@@ -5,8 +5,6 @@ import configState from '../../../store/configState'
 const Switcher = observer(() => {
 	return (
 		<div
-			id='switch'
-			title='if enabled, sounds will play when you start typing'
 			onClick={() => configState.togglePlaySound()}
 			className={
 				configState.getPlaySound ? css.switcher.concat(' ', css.active) : css.switcher

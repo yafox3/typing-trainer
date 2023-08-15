@@ -25,7 +25,7 @@ class ConfigState {
 	}
  
 	public get getVolume(): number {
-		return this._volume
+		return Math.floor(this._volume * 100)
 	}
 
 	public get getWordLength(): number {
@@ -46,7 +46,7 @@ class ConfigState {
 	}
 	
 	public set setVolume(value: number) {
-		this._volume = value
+		this._volume = value / 100
 	}
 
 	public set setWordLength(value: number) {
