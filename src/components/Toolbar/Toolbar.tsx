@@ -14,12 +14,16 @@ const Toolbar = observer(() => {
 	})
 
 	const categoryHandler = (v: string) => {
-		toolbarState.setCategory = v
+		if (!testState.getIsStarted) {
+			toolbarState.setCategory = v
+		}
 	}
 
 	const optionHandler = (v: number) => {
-		toolbarState.setOption = v
-		fetching()
+		if (!testState.getIsStarted) {
+			toolbarState.setOption = v
+			fetching()
+		}
 	}
 
   return (
