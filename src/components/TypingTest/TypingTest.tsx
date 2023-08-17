@@ -1,11 +1,14 @@
 import { observer } from 'mobx-react-lite'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { WordsService } from '../../API/WordsService'
 import { useQuery } from '../../hooks/useQuery'
 import configState from '../../store/configState'
+import statsState from '../../store/statsState'
 import testState from '../../store/testState'
 import { playSound } from '../../utils/playSound'
+import Stats from '../Stats/Stats'
 import Loader from '../UI/Loader/Loader'
+import ReloadButton from '../UI/ReloadButton/ReloadButton'
 import Timer from '../UI/Timer/Timer'
 import WordList from '../Words/WordList'
 import css from './TypingTest.module.css'
@@ -26,11 +29,13 @@ const TypingTest = observer(() => {
 	}, [])
 
 	useEffect(() => {
-		testState.getTimer === configState.getSeconds && testState.stopTest(fetching)
+		if (testState.getTimer === configState.getSeconds) {
+			testState.stopTest(fetching)
+		}
 		// eslint-disable-next-line
 	}, [testState.getTimer])
 
-	const typingHandler = (event: KeyboardEvent) => {
+	const typingHandler = async(event: KeyboardEvent) => {
 		if (testState.getIsStarted) {
 			configState.getPlaySound && playSound(event.key)
 
@@ -41,22 +46,29 @@ const TypingTest = observer(() => {
 			currentLetterEl?.classList.add('current')
 			
 			if (event.keyCode >= 32 && currentLetterEl) {
-				currentLetterEl?.classList.remove('correct', 'uncorrect')
+				currentLetterEl?.classList.remove('correct', 'incorrect')
 				
 				if (event.key === currentLetterEl?.getAttribute('data-key')) {
+					statsState.setCorrectChars = statsState.getCorrectChars + 1
 					currentLetterEl.classList.add('correct')
 				} else {
-					currentLetterEl?.classList.add('uncorrect')
+					statsState.setIncorrectChars = statsState.getIncorrectChars + 1
+					currentLetterEl?.classList.add('incorrect')
 				}
-	
+
+				statsState.setEnteredChars = statsState.getEnteredChars + 1
 				currentLetterIndex++
 			} else {
 				if (event.key === 'Backspace') {
+					statsState.setEnteredChars = statsState.getEnteredChars - 1
 					currentLetterEl?.classList.remove('current')
 					currentWordDivEl?.children[currentLetterIndex - 2]?.classList.add('current')
 					currentLetterIndex && currentLetterIndex--
 					const removableLetter = currentWordDivEl?.children.item(currentLetterIndex)
-					removableLetter?.classList.remove('uncorrect', 'correct')
+					if (removableLetter?.classList.contains('correct')) {
+						statsState.setCorrectChars = statsState.getCorrectChars - 1
+					}
+					removableLetter?.classList.remove('incorrect', 'correct')
 				}
 			}
 			
@@ -91,20 +103,28 @@ const TypingTest = observer(() => {
 	return (
 		<section className={css.test}>
 			<div className='container'>
-				
-				<Timer 
-					start={testState.getIsStarted}
-				/>
+				{statsState.getResultIsExist 
+					? <Stats /> 
+					: <>
+						<Timer 
+							start={testState.getIsStarted}
+						/>
+						<div className={css.test__inner} id='words' ref={wordsRef}>
+							<WordList words={testState.getWords}/>
+						</div>
 
-				<div className={css.test__inner} id='words' ref={wordsRef}>
-					<WordList words={testState.getWords}/>
-				</div>
+						{testState.getIsStarted
+							? <ReloadButton sx={{marginBottom: '30px'}} onClick={() => testState.stopTest(fetching)}/>
+							: <ReloadButton sx={{marginBottom: '30px'}} onClick={() => fetching()}/>
+						}
 
-				<div className={css.test__hotkey}>
-					<p className={testState.getIsStarted ? css.active : ''}>
-						press <span className={css.key}>space</span> to start
-					</p>
-				</div>
+						<div className={css.test__hotkey}>
+							<p className={testState.getIsStarted ? css.active : ''}>
+								press <span className={css.key}>space</span> to start
+							</p>
+						</div>
+					</>
+				}
 			</div>
 		</section>
 	)

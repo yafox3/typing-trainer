@@ -1,14 +1,12 @@
 import { makeAutoObservable } from 'mobx'
-import configState from './configState'
-import { useQuery } from '../hooks/useQuery'
-import { WordsService } from '../API/WordsService'
+import statsState from './statsState'
 
 class TestState {
 	private _words: string[] = []
 	private _timer = 0
 	private _enteredWords = 0
 	private _isStarted = false
-
+	private _timeFunc: any;
 	constructor() {
 		makeAutoObservable(this)
 	}
@@ -29,7 +27,6 @@ class TestState {
 	public get getWords() : string[] {
 		return this._words
 	}
-	
 
 	// setters
 	public set setEnteredWords(value: number) {
@@ -47,30 +44,39 @@ class TestState {
 	public set setTimer(v : number) {
 		this._timer = v;
 	}
-	
-	
 
 	// methods
 	public startTest() {
-		this._enteredWords = 0
-		this._timer = 0
+		this.resetScore()
 		this._isStarted = true
 		this.startTimer()
 	}
 
 	public stopTest(fetchWords: () => void) {
+		statsState.setResultIsExist = !!statsState.getEnteredChars
+		this.stopTimer()
 		this._isStarted = false
+		statsState.calcWpm(this.getEnteredWords, this.getTimer)
+		statsState.calcAcc()
 		fetchWords()
 	}
 
-	public startTimer() {
-		const timer = setInterval(() => {
-			if (this._timer === configState.getSeconds || this._enteredWords === configState.getWordsCount) {
-				clearInterval(timer)
-			}
+	public resetScore() {
+		this.setEnteredWords = 0
+		statsState.setEnteredChars = 0
+		statsState.setCorrectChars = 0
+		this.setTimer = 0
+		statsState.setResultIsExist = false
+	}
 
+	public startTimer() {
+		this._timeFunc = setInterval(() => {
 			this.setTimer = this.getTimer + 1
 		}, 1000)
+	}
+
+	public stopTimer() {
+		clearInterval(this._timeFunc)
 	}
 }
 

@@ -1,7 +1,7 @@
 import Main from '../pages/Main/Main'
 
 export enum AppRoutes {
-	MAIN = '/'
+	MAIN = '/',
 }
 
 export const router = [

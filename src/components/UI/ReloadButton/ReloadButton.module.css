@@ -1,0 +1,35 @@
+
+.reload {
+	position: relative;
+	display: block;
+	width: 50px;
+	margin: 0 auto;
+	color: #bdbcb3;
+	text-align: center;
+	cursor: pointer;
+	font-size: 28px;
+	transition: color .2s ease;
+}
+
+.reload::after {
+	content: 'reload';
+	position: absolute;
+	top: -20px;
+	left: 0;
+	font-size: 11px;
+	opacity: 0;
+	transition: opacity .2s ease;
+}
+
+.reload:hover {
+	color: white;
+}
+
+.reload:hover::after {
+	content: 'reload';
+	position: absolute;
+	top: -20px;
+	left: 0;
+	font-size: 11px;
+	opacity: 1;
+}

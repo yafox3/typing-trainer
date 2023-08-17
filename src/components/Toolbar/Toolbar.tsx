@@ -2,8 +2,10 @@ import { observer } from 'mobx-react-lite'
 import { WordsService } from '../../API/WordsService'
 import { useQuery } from '../../hooks/useQuery'
 import configState from '../../store/configState'
+import statsState from '../../store/statsState'
 import testState from '../../store/testState'
 import toolbarState from '../../store/toolbarState'
+import Stats from '../Stats/Stats'
 import Switcher from '../UI/Switcher/Switcher'
 import css from './Toolbar.module.css'
 
@@ -27,7 +29,7 @@ const Toolbar = observer(() => {
 	}
 
   return (
-	<div className={testState.getIsStarted ? css.toolbar.concat(' ', css.hidden) : css.toolbar}>
+	<div className={testState.getIsStarted || statsState.getResultIsExist ? css.toolbar.concat(' ', css.hidden) : css.toolbar}>
 	  		<div style={{height: configState.getPlaySound ? 80 : '', width: configState.getPlaySound ? 550 : 450}} className={css.body}>
 
 				<div className={css.sounds}>
@@ -111,6 +113,7 @@ const Toolbar = observer(() => {
 						</>
 					}
 				</div>
+
 			</div>
 	</div>
   )
