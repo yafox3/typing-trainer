@@ -63,9 +63,10 @@ class TestState {
 
 	public resetScore() {
 		this.setEnteredWords = 0
+		this.setTimer = 0
 		statsState.setEnteredChars = 0
 		statsState.setCorrectChars = 0
-		this.setTimer = 0
+		statsState.setIncorrectChars = 0
 		statsState.setResultIsExist = false
 	}
 

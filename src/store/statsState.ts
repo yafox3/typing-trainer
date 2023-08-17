@@ -63,7 +63,7 @@ class StatsState {
 	
 	// methods
 	public calcWpm (enteredWords: number, seconds: number): number {
-		this.setWpm = Math.floor((enteredWords / (seconds / 60)) / 1)
+		this.setWpm = enteredWords > 0 ? Math.floor((enteredWords / (seconds / 60)) / 1) : 0
 		return this.getWpm
 	}
 
