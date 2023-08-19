@@ -17,7 +17,7 @@ const Stats = observer(() => {
 					</div>					
 					<div className={css.acc}>
 						<div>acc</div>
-						<span>{statsState.getAcc}%</span>
+						<span>{statsState.getAcc.toFixed(1)}%</span>
 					</div>					
 					<div className={css.chars}>
 						<div>characters</div>

@@ -68,7 +68,7 @@ class StatsState {
 	}
 
 	public calcAcc (): number {
-		this.setAcc = Math.floor((this.getCorrectChars / this.getEnteredChars) * 100)
+		this.setAcc = (this.getCorrectChars / (this.getIncorrectChars + this.getCorrectChars)) * 100
 		return this.getAcc
 	}
 }
